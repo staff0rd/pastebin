@@ -1,0 +1,13 @@
+{
+    "name": "staff0rd/pastebin",
+    "description": "Send your text to pastebin at the commandline",
+    "require": {
+        "nategood/commando": "^0.3.0"
+    },
+    "authors": [
+        {
+            "name": "Stafford Williams",
+            "email": "stafford.williams@gmail.com"
+        }
+    ]
+}
