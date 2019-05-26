@@ -1,6 +1,24 @@
 # pastebin
 Send your text to pastebin at the commandline
 
+## usage
+
+Use the image directly from docker, here's some examples:
+
+```bash
+
+docker run -it staff0rd/pastebin -k <devKey> "paste this text to pastebin!"
+
+docker run -it staff0rd/pastebin --help # get help
+
+cat myfile.log | docker run -i staff0rd/pastebin -k <devKey> -j <userKey> -n "Contents of myfile.log" # push the contents of myfile.log at pastebin under your user
+
+cat myfile.log | docker run -i staff0rd/pastebin -k <devKey> # push the contents of myfile.log at pastebin as a guest post
+
+docker run -it staff0rd/pastebin -k <devKey> -u <userName> --password <password> # get a userkey to use above
+
+```
+
 ## develop
 
 ```bash
