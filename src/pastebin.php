@@ -2,20 +2,13 @@
 
 $content = "";
 
-echo "1";
-
 if(FALSE !== ftell(STDIN))
 {
-    echo "has stdin";
-    
     while (FALSE !== ($line = fgets(STDIN)))
     {
         $content .= $line;
     }
 }
-
-echo "2";
-
 
 require_once 'vendor/autoload.php';
 
@@ -23,10 +16,14 @@ $paste_cmd = new Commando\Command();
 
 $paste_cmd->option('k')
     ->require()
-    ->aka("key")
+    ->aka("devkey")
     ->describedAs('Your api developer key');
 
-    $paste_cmd->option('p')
+$paste_cmd->option('j')
+    ->aka("userkey")
+    ->describedAs("Your user key");
+
+$paste_cmd->option('p')
     ->aka('public')
     ->default(true)
     ->describedAs('Make this paste public.  Default is unlisted.')
@@ -45,18 +42,14 @@ $paste_cmd->option('u')
     ->aka('username')
     ->describedAs('Your pastebin user name');
 
-$paste_cmd->option('p')
-    ->aka('password')
+$paste_cmd->option('password')
     ->describedAs('Your pastebin password');
 
-echo "Wat";
-
 if (empty($paste_cmd["content"])) {
-    echo "Content was empty";
     if (!empty($paste_cmd["username"]) && !empty($paste_cmd["password"])) {
-        echo "Getting user key";
+        echo "Getting user key...\n";
         $response = get_user_key($paste_cmd["key"], $paste_cmd["username"], $paste_cmd["password"]);
-        echo "User-key: " . $response;
+        echo "User-key: " . $response . "\n";
         exit(0);
     } else {
         $paste_cmd->error(new Exception("Must specify content to paste"));
@@ -75,19 +68,18 @@ function get_user_key($api_dev_key, $api_user_name, $api_user_password) {
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, 'api_dev_key='.$api_dev_key.'&api_user_name='.$api_user_name.'&api_user_password='.$api_user_password.'');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_VERBOSE, 1);
     curl_setopt($ch, CURLOPT_NOBODY, 0);
 
     $response 		= curl_exec($ch);
     return $response;
 }
 
-$api_dev_key 			= $paste_cmd['key']; // your api_developer_key
+$api_dev_key 			= $paste_cmd['devkey']; // your api_developer_key
 $api_paste_private 		= $paste_cmd['public'] ? '0' : '1'; // 0=public 1=unlisted 2=private
 $api_paste_name			= $paste_cmd['name']; // name or title of your paste
 $api_paste_expire_date 		= 'N';
 $api_paste_format 		= 'text';
-// $api_user_key 			= ''; // if an invalid or expired api_user_key is used, an error will spawn. If no api_user_key is used, a guest paste will be created
+$api_user_key 			= $paste_cmd["userkey"];
 $api_paste_name			= urlencode($api_paste_name);
 $api_paste_code			= urlencode($contents);
 
@@ -100,5 +92,4 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 //curl_setopt($ch, CURLOPT_VERBOSE, 1); 
 curl_setopt($ch, CURLOPT_NOBODY, 0);
 $response  			= curl_exec($ch);
-echo "The response is\n";
 echo $response;
