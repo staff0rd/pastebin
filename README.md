@@ -1,5 +1,5 @@
 # pastebin
-Send your text to pastebin at the commandline
+Send your text to pastebin at the commandline with docker
 
 ## usage
 
