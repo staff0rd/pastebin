@@ -37,6 +37,6 @@ docker run --rm -it -v %cd%:/app -w /app php:cli php pastebin.php # windows
 
 To build the stand-alone docker image:
 
-``bash
+```bash
 docker build -t staff0rd/pastebin .
 ```
