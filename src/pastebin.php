@@ -14,6 +14,18 @@ require_once 'vendor/autoload.php';
 
 $paste_cmd = new Commando\Command();
 
+$paste_cmd->setHelp("Examples:
+
+docker run -it staff0rd/pastebin -k <devKey> \"paste this text to pastebin!\"
+    Paste the given text to pastebin
+
+cat myfile.log | docker run -i staff0rd/pastebin -k <devKey>
+    Paste the contents of myfile.log to pastebin
+
+docker run -it staff0rd/pastebin -k <devKey> -u <userName> --password <password>
+    Retrieve a userKey to use associate pastes with your user
+");
+
 $paste_cmd->option('k')
     ->require()
     ->aka("devkey")
@@ -21,7 +33,7 @@ $paste_cmd->option('k')
 
 $paste_cmd->option('j')
     ->aka("userkey")
-    ->describedAs("Your user key");
+    ->describedAs("Your user key.  Without this all pastes will be by guest");
 
 $paste_cmd->option('p')
     ->aka('public')
@@ -29,8 +41,8 @@ $paste_cmd->option('p')
     ->describedAs('Make this paste public.  Default is unlisted.')
     ->boolean();
 
-$paste_cmd->option('n')
-    ->aka('name')
+$paste_cmd->option('t')
+    ->aka('title')
     ->describedAs('Name or title of your paste');
 
 $paste_cmd->option()
@@ -40,10 +52,10 @@ $paste_cmd->option()
 
 $paste_cmd->option('u')
     ->aka('username')
-    ->describedAs('Your pastebin user name');
+    ->describedAs('Your pastebin user name.  Only used to a get a userkey.');
 
 $paste_cmd->option('password')
-    ->describedAs('Your pastebin password');
+    ->describedAs('Your pastebin password.  Only used to a get a userkey.');
 
 if (empty($paste_cmd["content"])) {
     if (!empty($paste_cmd["username"]) && !empty($paste_cmd["password"])) {
@@ -76,7 +88,7 @@ function get_user_key($api_dev_key, $api_user_name, $api_user_password) {
 
 $api_dev_key 			= $paste_cmd['devkey']; // your api_developer_key
 $api_paste_private 		= $paste_cmd['public'] ? '0' : '1'; // 0=public 1=unlisted 2=private
-$api_paste_name			= $paste_cmd['name']; // name or title of your paste
+$api_paste_name			= $paste_cmd['title']; // name or title of your paste
 $api_paste_expire_date 		= 'N';
 $api_paste_format 		= 'text';
 $api_user_key 			= $paste_cmd["userkey"];
