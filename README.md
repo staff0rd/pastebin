@@ -11,7 +11,7 @@ docker run -it staff0rd/pastebin -k <devKey> "paste this text to pastebin!"
 
 docker run -it staff0rd/pastebin --help # get help
 
-cat myfile.log | docker run -i staff0rd/pastebin -k <devKey> -j <userKey> -n "Contents of myfile.log" # push the contents of myfile.log at pastebin under your user
+cat myfile.log | docker run -i staff0rd/pastebin -k <devKey> -j <userKey> -t "Contents of myfile.log" # push the contents of myfile.log at pastebin under your user
 
 cat myfile.log | docker run -i staff0rd/pastebin -k <devKey> # push the contents of myfile.log at pastebin as a guest post
 

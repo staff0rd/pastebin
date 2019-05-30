@@ -104,4 +104,4 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 //curl_setopt($ch, CURLOPT_VERBOSE, 1); 
 curl_setopt($ch, CURLOPT_NOBODY, 0);
 $response  			= curl_exec($ch);
-echo $response;
+echo $response . "\n";
