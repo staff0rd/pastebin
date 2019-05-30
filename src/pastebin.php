@@ -60,7 +60,7 @@ $paste_cmd->option('password')
 if (empty($paste_cmd["content"])) {
     if (!empty($paste_cmd["username"]) && !empty($paste_cmd["password"])) {
         echo "Getting user key...\n";
-        $response = get_user_key($paste_cmd["key"], $paste_cmd["username"], $paste_cmd["password"]);
+        $response = get_user_key($paste_cmd["devkey"], $paste_cmd["username"], $paste_cmd["password"]);
         echo "User-key: " . $response . "\n";
         exit(0);
     } else {
